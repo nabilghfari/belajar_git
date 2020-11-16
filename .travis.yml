@@ -3,7 +3,7 @@ jdk: oraclejdk8
 
 env:
   global:
-    - ANDROID_API_LEVEL=26
+    - ANDROID_API_LEVEL=29
     - ANDROID_BUILD_TOOLS_VERSION=29.0.2
 android:
   licenses:
@@ -27,16 +27,17 @@ script:
   - ./gradlew test
   - ./gradlew assemblerelease
 
+
 deploy:
   provider: releases
   api_key: $GITHUB_API_KEY
   file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/release/app-release.apk
-  skip_cleanup: true
+  cleanup: true
   name: dev-build-$TRAVIS_TAG
   body: Automatic build of $TRAVIS BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
   prerelease: true
   overwrite: true
-  targer_commitish: $TRAVIS_COMMIT
+  target_commitish: $TRAVIS_COMMIT
   on:
     tags: true
 
